@@ -27,7 +27,7 @@ ATank* ATankPlayerController::GetControlledTank() const
 }
 
 // start tank moving barrel to align shot with UI reticle
-void ATankPlayerController::AimToReticle()
+void ATankPlayerController::AimToReticle() const
 {
 	if (!GetControlledTank()) return;
 
@@ -44,7 +44,29 @@ void ATankPlayerController::AimToReticle()
 // ray trace from camera through reticle
 bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) const
 {
-	OutHitLocation = FVector(1.0);
+	// find reticle position in pixel coordinates
+	int32 ViewportSizeX, ViewportSizeY;
+	GetViewportSize(ViewportSizeX, ViewportSizeY); // OUT parameters, detects screen size
+	FVector2D ReticlePosition = FVector2D(ViewportSizeX * ReticleXLocation, ViewportSizeY * ReticleYLocation);
+
+	// get the direction the camera is looking, through the reticle
+	FVector OutLookDirection;
+	if (GetLookDirection(ReticlePosition, OutLookDirection))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("OutLookDirection: %s"), *OutLookDirection.ToString());
+	}
 
 	return true;
+}
+
+// de-projects reticle to a look direction
+bool ATankPlayerController::GetLookDirection(FVector2D ReticlePosition, FVector& OutLookDirection) const
+{
+	FVector OutCameraPosition; // gets discarded
+
+	return DeprojectScreenPositionToWorld(
+		ReticlePosition.X,
+		ReticlePosition.Y,
+		OutCameraPosition,
+		OutLookDirection);
 }
