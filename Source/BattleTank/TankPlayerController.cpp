@@ -1,6 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankPlayerController.h"
+#include "Engine/World.h"
+
+#define OUT
 
 void ATankPlayerController::BeginPlay()
 {
@@ -17,6 +20,8 @@ void ATankPlayerController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (!GetControlledTank()) return;
+
 	AimToReticle();
 }
 
@@ -29,44 +34,57 @@ ATank* ATankPlayerController::GetControlledTank() const
 // start tank moving barrel to align shot with UI reticle
 void ATankPlayerController::AimToReticle() const
 {
-	if (!GetControlledTank()) return;
-
 	// if ray-tracing returns a hit
-	FVector OutHitLocation; // OUT parameter
-	if (GetSightRayHitLocation(OutHitLocation)) 
+	FVector HitLocation;
+	if (GetHitLocation(OUT HitLocation)) 
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Hit: %s"), *OutHitLocation.ToString());
+		UE_LOG(LogTemp, Warning, TEXT("Hit: %s"), *HitLocation.ToString());
 	}
 
 	return;
 }
 
 // ray trace from camera through reticle
-bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) const
+bool ATankPlayerController::GetHitLocation(FVector& HitLocation) const
 {
 	// find reticle position in pixel coordinates
 	int32 ViewportSizeX, ViewportSizeY;
-	GetViewportSize(ViewportSizeX, ViewportSizeY); // OUT parameters, detects screen size
-	FVector2D ReticlePosition = FVector2D(ViewportSizeX * ReticleXLocation, ViewportSizeY * ReticleYLocation);
+	GetViewportSize(OUT ViewportSizeX, OUT ViewportSizeY);
+	FVector2D ReticlePosition = FVector2D(ViewportSizeX * ReticleOffset.X, ViewportSizeY * ReticleOffset.Y);
 
-	// get the direction the camera is looking, through the reticle
-	FVector OutLookDirection;
-	if (GetLookDirection(ReticlePosition, OutLookDirection))
+	// get the camera position and direction the camera is looking through the reticle
+	FVector CameraPosition, LookDirection;
+	if (DeprojectScreenPositionToWorld(
+			ReticlePosition.X,
+			ReticlePosition.Y,
+			OUT CameraPosition,
+			OUT LookDirection))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("OutLookDirection: %s"), *OutLookDirection.ToString());
+		// ray-trace and determine a hit location
+		GetRayTraceResults(CameraPosition, LookDirection, OUT HitLocation);
 	}
 
 	return true;
 }
 
-// de-projects reticle to a look direction
-bool ATankPlayerController::GetLookDirection(FVector2D ReticlePosition, FVector& OutLookDirection) const
+// returns a hit location for a ray traced along LookVector
+bool ATankPlayerController::GetRayTraceResults(FVector CameraPosition, FVector LookDirection, FVector& HitLocation) const
 {
-	FVector OutCameraPosition; // gets discarded
+	FHitResult HitResult;
+	FVector Start = CameraPosition;
+	FVector End = CameraPosition + (LookDirection * RayTraceRange);
 
-	return DeprojectScreenPositionToWorld(
-		ReticlePosition.X,
-		ReticlePosition.Y,
-		OutCameraPosition,
-		OutLookDirection);
+	if (GetWorld()->LineTraceSingleByChannel(
+			OUT HitResult,
+			Start,
+			End,
+			ECC_Visibility))
+	{
+		HitLocation = HitResult.Location;
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }

@@ -4,8 +4,6 @@
 
 #include "Tank.h"
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
-#include "GameFramework/PlayerController.h"
 #include "TankPlayerController.generated.h"
 
 UCLASS()
@@ -17,10 +15,10 @@ private:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(EditAnywhere) // reticle is halfway across the screen
-	float ReticleXLocation = 0.5;
-	UPROPERTY(EditAnywhere) // reticle is a third down the screen
-	float ReticleYLocation = 0.33333;
+	UPROPERTY(EditAnywhere) // where the reticle appears on screen (offset from left-top)
+	FVector2D ReticleOffset = FVector2D(0.5, 0.33333);
+	UPROPERTY(EditAnywhere) // ray-tracing range
+	float RayTraceRange = 1000000;
 
 	// returns the tank currently controlled by the player
 	ATank* GetControlledTank() const;
@@ -29,8 +27,8 @@ private:
 	void AimToReticle() const;
 	
 	// ray trace from camera through reticle
-	bool GetSightRayHitLocation(FVector& OutHitLocation) const;
+	bool GetHitLocation(FVector& HitLocation) const;
 
-	// de-projects reticle to a look direction
-	bool GetLookDirection(FVector2D ReticlePosition, FVector& OutLookDirection) const;
+	// returns a hit location for a ray traced along LookVector
+	bool GetRayTraceResults(FVector CameraPosition, FVector LookDirection, FVector & HitLocation) const;
 };
