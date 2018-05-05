@@ -22,4 +22,7 @@ private:
 
 	// start tank moving barrel to align shot with UI reticle
 	void AimToReticle();
+	
+	// ray trace from camera through reticle
+	bool GetSightRayHitLocation(FVector& OutHitLocation) const;
 };

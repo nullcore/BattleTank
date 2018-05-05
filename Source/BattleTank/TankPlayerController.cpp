@@ -31,8 +31,20 @@ void ATankPlayerController::AimToReticle()
 {
 	if (!GetControlledTank()) return;
 
-	//TODO: get world location by ray-tracing through reticle
+	// if ray-tracing returns a hit
+	FVector OutHitLocation; // OUT parameter
+	if (GetSightRayHitLocation(OutHitLocation)) 
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Hit: %s"), *OutHitLocation.ToString());
+	}
 
-	// if it hits something
-		// tell controlled tank to aim at this point
+	return;
+}
+
+// ray trace from camera through reticle
+bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) const
+{
+	OutHitLocation = FVector(1.0);
+
+	return true;
 }
