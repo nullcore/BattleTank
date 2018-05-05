@@ -8,9 +8,6 @@
 #include "GameFramework/PlayerController.h"
 #include "TankPlayerController.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class BATTLETANK_API ATankPlayerController : public APlayerController
 {
@@ -18,6 +15,11 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 	
 private:
 	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
 
+	// returns the tank currently controlled by the player
 	ATank* GetControlledTank() const;
+
+	// start tank moving barrel to align shot with UI reticle
+	void AimToReticle();
 };
