@@ -15,6 +15,7 @@ class BATTLETANK_API ATankAIController : public AAIController
 	
 private:
 	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
 
 	// returns the tank currently controlled by the AI
 	ATank* GetControlledTank() const;

@@ -9,9 +9,9 @@ void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// determine the currently controlled tank
-	ATank* ControlledTank = GetControlledTank();
-	if (!ControlledTank) { 
+	// logs an error if no controlled tank is found
+	if (!GetControlledTank()) 
+	{ 
 		UE_LOG(LogTemp, Error, TEXT("TankPlayerController is not controlling a tank!")); 
 	}
 }
@@ -20,8 +20,10 @@ void ATankPlayerController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	// don't even bother if there's no tank to control
 	if (!GetControlledTank()) return;
 
+	// aim at the on screen UI reticle
 	AimToReticle();
 }
 
@@ -38,13 +40,14 @@ void ATankPlayerController::AimToReticle() const
 	FVector HitLocation;
 	if (GetHitLocation(OUT HitLocation)) 
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Hit: %s"), *HitLocation.ToString());
+		// passes to Tank.h to handle aiming
+		GetControlledTank()->AimAt(HitLocation);
 	}
 
 	return;
 }
 
-// ray trace from camera through reticle
+// retrives any visible object under the UI reticle
 bool ATankPlayerController::GetHitLocation(FVector& HitLocation) const
 {
 	// find reticle position in pixel coordinates
