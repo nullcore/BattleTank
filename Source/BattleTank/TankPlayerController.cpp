@@ -1,7 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankPlayerController.h"
-#include "Engine/World.h"
 
 #define OUT
 
@@ -55,7 +54,7 @@ bool ATankPlayerController::GetHitLocation(FVector& HitLocation) const
 	GetViewportSize(OUT ViewportSizeX, OUT ViewportSizeY);
 	FVector2D ReticlePosition = FVector2D(ViewportSizeX * ReticleOffset.X, ViewportSizeY * ReticleOffset.Y);
 
-	// get the camera position and direction the camera is looking through the reticle
+	// deproject the camera position and the camera look direction
 	FVector CameraPosition, LookDirection;
 	if (DeprojectScreenPositionToWorld(
 			ReticlePosition.X,
@@ -65,12 +64,16 @@ bool ATankPlayerController::GetHitLocation(FVector& HitLocation) const
 	{
 		// ray-trace and determine a hit location
 		GetRayTraceResults(CameraPosition, LookDirection, OUT HitLocation);
+		return true;
 	}
-
-	return true;
+	else 
+	{
+		HitLocation = FVector(0);
+		return false; 
+	}
 }
 
-// returns a hit location for a ray traced along LookVector
+// returns a hit location for a ray traced through the reticle
 bool ATankPlayerController::GetRayTraceResults(FVector CameraPosition, FVector LookDirection, FVector& HitLocation) const
 {
 	FHitResult HitResult;
