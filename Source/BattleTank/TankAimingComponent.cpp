@@ -74,11 +74,6 @@ void UTankAimingComponent::MoveTurretTo(FVector AimDirection)
 	FRotator DeltaRotation = AimRotation - TurretRotation;
 
 	Turret->Rotate(DeltaRotation.Yaw);
-	UE_LOG(LogTemp, Display,
-		TEXT("<%f><%s> %s"),
-		GetWorld()->GetTimeSeconds(),
-		*GetOwner()->GetName(),
-		*AimDirection.ToString());
 }
 
 // moves the barrel to a specified direction
@@ -89,12 +84,4 @@ void UTankAimingComponent::MoveBarrelTo(FVector AimDirection)
 	FRotator DeltaRotation = AimRotation - BarrelRotation;
 
 	Barrel->Elevate(DeltaRotation.Pitch);
-
-	//auto LogRotation = Barrel->GetComponentRotation().ToString();
-	auto LogRotation = Barrel->GetForwardVector().Rotation().ToString();
-	UE_LOG(LogTemp, Display,
-		TEXT("<%f><%s> %s"),
-		GetWorld()->GetTimeSeconds(),
-		*GetOwner()->GetName(),
-		*LogRotation);
 }
