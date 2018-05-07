@@ -14,9 +14,6 @@ class BATTLETANK_API UTankAimingComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:	
-	//virtual void BeginPlay() override;
-	//virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 
