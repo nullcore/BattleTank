@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankAimingComponent.h"
+#include "TankTurret.h"
 #include "TankBarrel.h"
 #include "Engine/World.h"
 #include "Kismet/GameplayStatics.h"
@@ -17,6 +18,12 @@ UTankAimingComponent::UTankAimingComponent()
 
 
 
+// retrieves a reference to the turret's static mesh
+void UTankAimingComponent::SetTurretReference(UTankTurret* TurretToSet)
+{
+	Turret = TurretToSet;
+}
+
 // retrieves a reference to the barrel's static mesh
 void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
@@ -28,7 +35,7 @@ void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
 // handles the actual movements required for aiming
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
-	if (!Barrel) { return; } // abandons if no barrel is found
+	if (!Barrel || !Turret) { return; } // abandons if components are missing
 
 	FVector TossVelocity;
 	FVector Start = Barrel->GetSocketLocation(FName("Projectile"));
@@ -52,11 +59,27 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	if (bHaveAimSolution)
 	{
 		FVector AimDirection = TossVelocity.GetSafeNormal();
+		MoveTurretTo(AimDirection);
 		MoveBarrelTo(AimDirection);
 	}
 }
 
 
+
+// moves the turret to a specified direction
+void UTankAimingComponent::MoveTurretTo(FVector AimDirection)
+{
+	FRotator TurretRotation = Turret->GetForwardVector().Rotation();
+	FRotator AimRotation = AimDirection.Rotation();
+	FRotator DeltaRotation = AimRotation - TurretRotation;
+
+	Turret->Rotate(DeltaRotation.Yaw);
+	UE_LOG(LogTemp, Display,
+		TEXT("<%f><%s> %s"),
+		GetWorld()->GetTimeSeconds(),
+		*GetOwner()->GetName(),
+		*AimDirection.ToString());
+}
 
 // moves the barrel to a specified direction
 void UTankAimingComponent::MoveBarrelTo(FVector AimDirection)
@@ -69,9 +92,9 @@ void UTankAimingComponent::MoveBarrelTo(FVector AimDirection)
 
 	//auto LogRotation = Barrel->GetComponentRotation().ToString();
 	auto LogRotation = Barrel->GetForwardVector().Rotation().ToString();
-	UE_LOG(LogTemp, Warning,
+	UE_LOG(LogTemp, Display,
 		TEXT("<%f><%s> %s"),
-			GetWorld()->GetTimeSeconds(),
-			*GetOwner()->GetName(),
-			*LogRotation);
+		GetWorld()->GetTimeSeconds(),
+		*GetOwner()->GetName(),
+		*LogRotation);
 }

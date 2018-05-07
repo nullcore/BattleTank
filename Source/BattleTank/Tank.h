@@ -8,6 +8,7 @@
 
 
 
+class UTankTurret;
 class UTankBarrel;
 class UTankAimingComponent;
 
@@ -19,6 +20,9 @@ class BATTLETANK_API ATank : public APawn
 public:
 	void AimAt(FVector HitLocation);
 
+	// these must be set up in tank blueprint to function
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void SetTurretReference(UTankTurret* TurretToSet);
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetBarrelReference(UTankBarrel* BarrelToSet);
 

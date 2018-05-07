@@ -8,10 +8,12 @@
 // elevate gun barrel the correct amount this frame
 void UTankBarrel::Elevate(float RelativeSpeed)
 {
-	RelativeSpeed = FMath::Clamp<float>(RelativeSpeed, -1, 1); // ensures maximum speed compliance
-	float ElevationChange = RelativeSpeed * DegreesPerSecond * GetWorld()->DeltaTimeSeconds;
-	float RawNewElevation = RelativeRotation.Pitch + ElevationChange;
-	float Elevation = FMath::Clamp<float>(RawNewElevation, MinElevation, MaxElevation); // limits elevation range
+	// ensure minimum/maximum speed compliance
+	RelativeSpeed = FMath::Clamp<float>(RelativeSpeed, -1, 1);
 
-	SetRelativeRotation(FRotator(Elevation, 0, 0));
+	float DeltaElevation = RelativeSpeed * DegreesPerSecond * GetWorld()->DeltaTimeSeconds;
+	float NewElevation = FMath::Clamp<float>(RelativeRotation.Pitch + DeltaElevation, MinElevation, MaxElevation);
+
+	// sets the barrel pitch
+	SetRelativeRotation(FRotator(NewElevation, 0, 0));
 }
