@@ -8,6 +8,8 @@
 
 
 
+class UTankBarrel; // forward declaration
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BATTLETANK_API UTankAimingComponent : public UActorComponent
 {
@@ -18,11 +20,17 @@ public:
 	UTankAimingComponent();
 
 	// retrieves a reference to the barrel's static mesh
-	void SetBarrelReference(UStaticMeshComponent* BarrelToSet);
+	void SetBarrelReference(UTankBarrel* BarrelToSet);
+
+	// TODO SetTurretReference
 
 	// handles the actual movements required for aiming
 	void AimAt(FVector HitLocation, float LaunchSpeed);
 
 private:
-	UStaticMeshComponent* Barrel = nullptr;
+	// finds the mesh for the barrel component of the tank
+	UTankBarrel* Barrel = nullptr;
+
+	// moves the barrel
+	void MoveBarrelTo(FVector AimDirection);
 };

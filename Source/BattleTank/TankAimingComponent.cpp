@@ -1,8 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankAimingComponent.h"
-#include "Kismet/GameplayStatics.h"
+#include "TankBarrel.h"
+#include "Engine/World.h"
 #include "Components/StaticMeshComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 
 
@@ -17,7 +19,7 @@ UTankAimingComponent::UTankAimingComponent()
 
 
 // retrieves a reference to the barrel's static mesh
-void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent* BarrelToSet)
+void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
 	Barrel = BarrelToSet;
 }
@@ -29,26 +31,46 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
 	if (!Barrel) { return; } // abandons if no barrel is found
 
-	// use SuggestProjectileVelocity to get an aim direction
 	FVector TossVelocity;
 	FVector Start = Barrel->GetSocketLocation(FName("Projectile"));
 	FVector End = HitLocation + FVector(0, 0, 100);
 
+	// use SuggestProjectileVelocity to get an aim direction
 	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity	(
 		this,
 		OUT TossVelocity,
 		Start,
 		End,
-		LaunchSpeed,
-		ESuggestProjVelocityTraceOption::OnlyTraceWhileAscending);
+		LaunchSpeed);
 
-	//if (bHaveAimSolution)
-	//{
-		auto AimDirection = TossVelocity.GetSafeNormal();
-		auto TankName = GetOwner()->GetName();
-	//}
-	
-	UE_LOG(LogTemp, Display, TEXT("%s Hit: %s"), *GetOwner()->GetName(), *HitLocation.ToString());
+	if (bHaveAimSolution)
+	{
+		FVector AimDirection = TossVelocity.GetSafeNormal();
+		MoveBarrelTo(AimDirection);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Display, 
+			TEXT("<%f><%s> No solution Found!"), 
+				GetWorld()->GetTimeSeconds(),
+				*GetOwner()->GetName());
+	}
+}
 
-	UE_LOG(LogTemp, Warning, TEXT("%s Aim: %s"), *GetOwner()->GetName(), *AimDirection.ToString());
+
+
+// moves the barrel
+void UTankAimingComponent::MoveBarrelTo(FVector AimDirection)
+{
+	FRotator BarrelRotation = Barrel->GetForwardVector().Rotation();
+	FRotator AimRotation = AimDirection.Rotation();
+	FRotator DeltaRotation = AimRotation - BarrelRotation;
+
+	UE_LOG(LogTemp, Warning,
+		TEXT("<%f><%s> %s"),
+		GetWorld()->GetTimeSeconds(),
+		*GetOwner()->GetName(),
+		*AimRotation.ToString());
+
+	Barrel->Elevate(5); // TODO remove magic number
 }
