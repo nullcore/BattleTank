@@ -1,19 +1,17 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankPlayerController.h"
+#include "Engine/World.h"
+#include "Tank.h"
 
-#define OUT
+
 
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// logs an error if no controlled tank is found
-	if (!GetControlledTank()) 
-	{ 
-		UE_LOG(LogTemp, Error, TEXT("TankPlayerController is not controlling a tank!")); 
-	}
 }
+
+
 
 void ATankPlayerController::Tick(float DeltaTime)
 {
@@ -26,11 +24,15 @@ void ATankPlayerController::Tick(float DeltaTime)
 	AimToReticle();
 }
 
+
+
 // returns the tank currently controlled by the player
 ATank* ATankPlayerController::GetControlledTank() const
 {
 	return Cast<ATank>(GetPawn());
 }
+
+
 
 // start tank moving barrel to align shot with UI reticle
 void ATankPlayerController::AimToReticle() const
@@ -45,6 +47,8 @@ void ATankPlayerController::AimToReticle() const
 
 	return;
 }
+
+
 
 // retrives any visible object under the UI reticle
 bool ATankPlayerController::GetHitLocation(FVector& HitLocation) const
@@ -72,6 +76,8 @@ bool ATankPlayerController::GetHitLocation(FVector& HitLocation) const
 		return false; 
 	}
 }
+
+
 
 // returns a hit location for a ray traced through the reticle
 bool ATankPlayerController::GetRayTraceResults(FVector CameraPosition, FVector LookDirection, FVector& HitLocation) const

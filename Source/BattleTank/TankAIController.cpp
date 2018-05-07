@@ -2,22 +2,13 @@
 
 #include "TankAIController.h"
 #include "Engine/World.h"
+#include "Tank.h"
 
 
 
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// logs an error if no controlled tank or player tank found
-	if (!GetControlledTank())
-	{
-		UE_LOG(LogTemp, Error, TEXT("TankAIController is not controlling a tank!"));
-	}
-	if (!GetPlayerTank())
-	{
-		UE_LOG(LogTemp, Error, TEXT("TankAIController cannot determine player tank!"))
-	}
 }
 
 

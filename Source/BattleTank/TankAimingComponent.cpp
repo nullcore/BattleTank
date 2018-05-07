@@ -3,7 +3,6 @@
 #include "TankAimingComponent.h"
 #include "TankBarrel.h"
 #include "Engine/World.h"
-#include "Components/StaticMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
 
 
@@ -33,7 +32,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 
 	FVector TossVelocity;
 	FVector Start = Barrel->GetSocketLocation(FName("Projectile"));
-	FVector End = HitLocation + FVector(0, 0, 100);
+	FVector End = HitLocation;// +FVector(0, 0, 100);
 
 	// use SuggestProjectileVelocity to get an aim direction
 	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity	(
@@ -41,7 +40,11 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		OUT TossVelocity,
 		Start,
 		End,
-		LaunchSpeed);
+		LaunchSpeed,
+		false,
+		0,
+		0,
+		ESuggestProjVelocityTraceOption::DoNotTrace);
 
 	if (bHaveAimSolution)
 	{
