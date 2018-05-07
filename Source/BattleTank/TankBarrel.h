@@ -14,12 +14,12 @@ class BATTLETANK_API UTankBarrel : public UStaticMeshComponent
 	GENERATED_BODY()
 	
 public:
-	// accepts values from -1 to 1
+	// elevate gun barrel the correct amount this frame
 	void Elevate(float RelativeSpeed);
 
 private:
 	UPROPERTY(EditAnywhere, Category = Setup)
-	float DegreesPerSecond = 20;
+	float DegreesPerSecond = 5;
 	UPROPERTY(EditAnywhere, Category = Setup)
 	float MinElevation = 0;
 	UPROPERTY(EditAnywhere, Category = Setup)

@@ -32,7 +32,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 
 	FVector TossVelocity;
 	FVector Start = Barrel->GetSocketLocation(FName("Projectile"));
-	FVector End = HitLocation;// +FVector(0, 0, 100);
+	FVector End = HitLocation;
 
 	// use SuggestProjectileVelocity to get an aim direction
 	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity	(
@@ -41,39 +41,37 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		Start,
 		End,
 		LaunchSpeed,
-		false,
-		0,
-		0,
-		ESuggestProjVelocityTraceOption::DoNotTrace);
+		false,					// high-arc
+		0,						// collision radius
+		0,						// gravity override
+		ESuggestProjVelocityTraceOption::DoNotTrace,
+		FCollisionResponseParams::DefaultResponseParam,
+		TArray<AActor*>(),		// actor ignore list
+		false);					// debug lines
 
 	if (bHaveAimSolution)
 	{
 		FVector AimDirection = TossVelocity.GetSafeNormal();
 		MoveBarrelTo(AimDirection);
 	}
-	else
-	{
-		UE_LOG(LogTemp, Display, 
-			TEXT("<%f><%s> No solution Found!"), 
-				GetWorld()->GetTimeSeconds(),
-				*GetOwner()->GetName());
-	}
 }
 
 
 
-// moves the barrel
+// moves the barrel to a specified direction
 void UTankAimingComponent::MoveBarrelTo(FVector AimDirection)
 {
 	FRotator BarrelRotation = Barrel->GetForwardVector().Rotation();
 	FRotator AimRotation = AimDirection.Rotation();
 	FRotator DeltaRotation = AimRotation - BarrelRotation;
 
+	Barrel->Elevate(DeltaRotation.Pitch);
+
+	//auto LogRotation = Barrel->GetComponentRotation().ToString();
+	auto LogRotation = Barrel->GetForwardVector().Rotation().ToString();
 	UE_LOG(LogTemp, Warning,
 		TEXT("<%f><%s> %s"),
-		GetWorld()->GetTimeSeconds(),
-		*GetOwner()->GetName(),
-		*AimRotation.ToString());
-
-	Barrel->Elevate(5); // TODO remove magic number
+			GetWorld()->GetTimeSeconds(),
+			*GetOwner()->GetName(),
+			*LogRotation);
 }

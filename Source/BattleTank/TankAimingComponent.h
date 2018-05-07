@@ -22,7 +22,7 @@ public:
 	// retrieves a reference to the barrel's static mesh
 	void SetBarrelReference(UTankBarrel* BarrelToSet);
 
-	// TODO SetTurretReference
+	// TODO SetTurretReference()
 
 	// handles the actual movements required for aiming
 	void AimAt(FVector HitLocation, float LaunchSpeed);
@@ -31,6 +31,6 @@ private:
 	// finds the mesh for the barrel component of the tank
 	UTankBarrel* Barrel = nullptr;
 
-	// moves the barrel
+	// moves the barrel to a specified direction
 	void MoveBarrelTo(FVector AimDirection);
 };

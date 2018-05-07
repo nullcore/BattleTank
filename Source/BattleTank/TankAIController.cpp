@@ -21,7 +21,9 @@ void ATankAIController::Tick(float DeltaTime)
 	if (!GetControlledTank() || !GetPlayerTank()) { return; }
 
 	// aim at the player's tank
-	GetControlledTank()->AimAt(GetPlayerTank()->GetActorLocation());
+	// TODO find a more elegant solution to AI targeting of player tank
+	FVector Target = GetPlayerTank()->GetDefaultAttachComponent()->GetSocketLocation(FName("Turret"));
+	GetControlledTank()->AimAt(Target);
 }
 
 
