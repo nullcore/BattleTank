@@ -4,6 +4,7 @@
 #include "TankTurret.h"
 #include "TankBarrel.h"
 #include "Engine/World.h"
+#include "GameFramework/Actor.h"
 #include "Kismet/GameplayStatics.h"
 
 
@@ -40,9 +41,11 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	FVector TossVelocity;
 	FVector Start = Barrel->GetSocketLocation(FName("Projectile"));
 	FVector End = HitLocation;
+	TArray<AActor*> IgnoreList;		// TODO aim solution ignore list doesn't seem to work
+		IgnoreList.Add(GetOwner()); // ignore collisions with owning actor
 
 	// use SuggestProjectileVelocity to get an aim direction
-	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity	(
+	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(
 		this,
 		OUT TossVelocity,
 		Start,
@@ -53,7 +56,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		0,						// gravity override
 		ESuggestProjVelocityTraceOption::DoNotTrace,
 		FCollisionResponseParams::DefaultResponseParam,
-		TArray<AActor*>(),		// actor ignore list
+		IgnoreList,				// actor ignore list
 		false);					// debug lines
 
 	if (bHaveAimSolution)

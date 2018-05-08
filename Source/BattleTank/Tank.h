@@ -8,9 +8,10 @@
 
 
 
+class UTankAimingComponent; 
 class UTankTurret;
 class UTankBarrel;
-class UTankAimingComponent;
+class AProjectile;
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -41,6 +42,12 @@ private:
 	// sets the firing speed of the tank's cannon
 	UPROPERTY(EditAnywhere, Category = Firing)
 	float LaunchSpeed = 4000;
+	// defines the tank's projectile
+	UPROPERTY(EditAnywhere, Category = Firing)
+	TSubclassOf<AProjectile> ProjectileBlueprint;
+
+	// local reference to barrel
+	UTankBarrel* Barrel = nullptr;
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
