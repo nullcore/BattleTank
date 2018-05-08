@@ -17,27 +17,16 @@ void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	// don't even bother if there's no tank to control, or no player tank
-	if (!GetControlledTank() || !GetPlayerTank()) { return; }
+	// find the AI controlled tank and the player's tank
+	ATank* AITank = Cast<ATank>(GetPawn());
+	ATank* PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
 
-	// aim at the player's tank
-	// TODO find a more elegant solution to AI targeting of player tank
-	FVector Target = GetPlayerTank()->GetDefaultAttachComponent()->GetSocketLocation(FName("Turret"));
-	GetControlledTank()->AimAt(Target);
-}
-
-
-
-// returns the tank currently controlled by the AI
-ATank* ATankAIController::GetControlledTank() const
-{
-	return Cast<ATank>(GetPawn());
-}
-
-
-
-// returns the tank currently controlled by the player
-ATank* ATankAIController::GetPlayerTank() const
-{
-	return Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	if (AITank && PlayerTank) 
+	{
+		// aim at the player's tank
+		// TODO find a more elegant solution to AI targeting of player tank
+		FVector Target = PlayerTank->GetDefaultAttachComponent()->GetSocketLocation(FName("Turret"));
+		AITank->AimAt(Target);
+		//AITank->Fire(); // TODO limit firing rate
+	}
 }

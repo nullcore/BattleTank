@@ -18,10 +18,11 @@ void ATankPlayerController::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	// don't even bother if there's no tank to control
-	if (!GetControlledTank()) return;
-
-	// aim at the on screen UI reticle
-	AimToReticle();
+	if (GetControlledTank())
+	{
+		// aim at the on screen UI reticle
+		AimToReticle();
+	}
 }
 
 

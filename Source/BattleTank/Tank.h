@@ -39,12 +39,16 @@ private:
 	// Sets default values for this pawn's properties
 	ATank();
 
-	// sets the firing speed of the tank's cannon
-	UPROPERTY(EditAnywhere, Category = Firing)
-	float LaunchSpeed = 4000;
 	// defines the tank's projectile
-	UPROPERTY(EditAnywhere, Category = Firing)
+	UPROPERTY(EditAnywhere, Category = Setup)
 	TSubclassOf<AProjectile> ProjectileBlueprint;
+	// sets the firing speed of the tank's cannon
+	UPROPERTY(EditAnywhere, Category = Setup)
+	float LaunchSpeed = 10000;
+	UPROPERTY(EditAnywhere, Category = Setup)
+	float ReloadTime = 3;
+
+	float LastFireTime = ReloadTime * -1;
 
 	// local reference to barrel
 	UTankBarrel* Barrel = nullptr;
