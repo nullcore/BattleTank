@@ -19,9 +19,9 @@ private:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(EditAnywhere) // where the reticle appears on screen (offset from left-top)
+	UPROPERTY(EditDefaultsOnly) // where the reticle appears on screen (offset from left-top)
 	FVector2D ReticleOffset = FVector2D(0.5, 0.33333);
-	UPROPERTY(EditAnywhere) // ray-tracing range
+	UPROPERTY(EditDefaultsOnly) // ray-tracing range
 	float RayTraceRange = 1000000;
 
 	// returns the tank currently controlled by the player

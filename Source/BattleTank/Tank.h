@@ -40,12 +40,12 @@ private:
 	ATank();
 
 	// defines the tank's projectile
-	UPROPERTY(EditAnywhere, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	TSubclassOf<AProjectile> ProjectileBlueprint;
 	// sets the firing speed of the tank's cannon
-	UPROPERTY(EditAnywhere, Category = Setup)
-	float LaunchSpeed = 10000;
-	UPROPERTY(EditAnywhere, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	float LaunchSpeed = 8000;
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float ReloadTime = 3;
 
 	float LastFireTime = ReloadTime * -1;
