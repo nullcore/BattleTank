@@ -18,16 +18,10 @@ ATank::ATank()
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("AimingComponent"));
 }
 
-
-// set reference to turret
-void ATank::SetTurretReference(UTankTurret* TurretToSet)
+// set references to turret and barrel
+void ATank::SetReferences(UTankTurret* TurretToSet, UTankBarrel* BarrelToSet)
 {
 	TankAimingComponent->SetTurretReference(TurretToSet);
-}
-
-// set reference to barrel
-void ATank::SetBarrelReference(UTankBarrel* BarrelToSet)
-{
 	TankAimingComponent->SetBarrelReference(BarrelToSet);
 	Barrel = BarrelToSet; // local reference
 }
@@ -61,11 +55,22 @@ void ATank::AimAt(FVector HitLocation)
 //fire projectile
 void ATank::Fire()
 {
-	if (!Barrel) { return; }
+	// checks for a barrel and projectile blueprint, exits if not found
+	FString ThisTank = GetName();
+	if (!Barrel)
+	{
+		UE_LOG(LogTemp, Error, TEXT("%s has no Barrel assigned!"), *ThisTank);
+		return;
+	}
+	if (!ProjectileBlueprint)
+	{
+		UE_LOG(LogTemp, Error, TEXT("%s has no ProjectileBlueprint assigned!"), *ThisTank);
+		return;
+	}
 
-	// check if gun is reloaded
+	// check for a barrel and if gun is reloaded
 	bool bReloaded = ( (GetWorld()->GetTimeSeconds() - LastFireTime) > ReloadTime );
-	if (bReloaded)
+	if (Barrel && ProjectileBlueprint && bReloaded)
 	{
 		// spawns a projectile
 		AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(
@@ -76,6 +81,7 @@ void ATank::Fire()
 		// launches that projectile
 		Projectile->LaunchProjectile(LaunchSpeed);
 
+		//resets fire time for reload checking
 		LastFireTime = GetWorld()->GetTimeSeconds();
 	}
 }

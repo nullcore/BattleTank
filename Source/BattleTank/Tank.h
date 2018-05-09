@@ -21,9 +21,7 @@ class BATTLETANK_API ATank : public APawn
 public:
 	// these must be set up in tank blueprint to function
 	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetTurretReference(UTankTurret* TurretToSet);
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetBarrelReference(UTankBarrel* BarrelToSet);
+	void SetReferences(UTankTurret* TurretToSet, UTankBarrel* BarrelToSet);
 
 	// aims the tank at the specified location
 	void AimAt(FVector HitLocation);
@@ -44,10 +42,11 @@ private:
 	TSubclassOf<AProjectile> ProjectileBlueprint;
 	// sets the firing speed of the tank's cannon
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
-	float LaunchSpeed = 8000;
+	float LaunchSpeed = 30000;
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float ReloadTime = 3;
 
+	// determines when the last shot was fired
 	float LastFireTime = ReloadTime * -1;
 
 	// local reference to barrel

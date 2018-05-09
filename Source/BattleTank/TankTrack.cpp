@@ -4,4 +4,9 @@
 
 
 
-
+// sets throttle for this track
+void UTankTrack::SetThrottle(float Throttle)
+{
+	// UE_LOG(LogTemp, Display, TEXT("Throttle: %f"), Throttle);
+	UE_LOG(LogTemp, Warning, TEXT("TEST"));
+}
