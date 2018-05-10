@@ -72,11 +72,19 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 // moves the turret to a specified direction
 void UTankAimingComponent::MoveTurretTo(FVector AimDirection)
 {
-	FRotator TurretRotation = Turret->GetForwardVector().Rotation();
 	FRotator AimRotation = AimDirection.Rotation();
+	FRotator TurretRotation = Turret->GetForwardVector().Rotation();
 	FRotator DeltaRotation = AimRotation - TurretRotation;
 
-	Turret->Rotate(DeltaRotation.Yaw);
+	if (FMath::Abs(DeltaRotation.Yaw) < 180)
+	{ 	
+		Turret->Rotate(DeltaRotation.Yaw);
+	}
+	else
+	{
+		Turret->Rotate(-DeltaRotation.Yaw);
+	}
+
 }
 
 // moves the barrel to a specified direction
