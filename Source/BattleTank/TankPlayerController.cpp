@@ -81,7 +81,7 @@ bool ATankPlayerController::GetHitLocation(FVector& HitLocation) const
 
 
 // returns a hit location for a ray traced through the reticle
-bool ATankPlayerController::GetRayTraceResults(FVector CameraPosition, FVector LookDirection, FVector& HitLocation) const
+void ATankPlayerController::GetRayTraceResults(FVector CameraPosition, FVector LookDirection, FVector& HitLocation) const
 {
 	FHitResult HitResult;
 	FVector Start = CameraPosition;
@@ -94,10 +94,9 @@ bool ATankPlayerController::GetRayTraceResults(FVector CameraPosition, FVector L
 			ECC_Visibility))
 	{
 		HitLocation = HitResult.Location;
-		return true;
 	}
-	else
+	else // if it hits nothing (sky) aim out to end of trace path
 	{
-		return false;
+		HitLocation = End;
 	}
 }

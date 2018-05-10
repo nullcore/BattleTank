@@ -14,7 +14,7 @@ UCLASS()
 class BATTLETANK_API ATankPlayerController : public APlayerController
 {
 	GENERATED_BODY()
-	
+
 private:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
@@ -22,7 +22,7 @@ private:
 	UPROPERTY(EditDefaultsOnly) // where the reticle appears on screen (offset from left-top)
 	FVector2D ReticleOffset = FVector2D(0.5, 0.33333);
 	UPROPERTY(EditDefaultsOnly) // ray-tracing range
-	float RayTraceRange = 1000000;
+	float RayTraceRange = 50000;
 
 	// returns the tank currently controlled by the player
 	ATank* GetControlledTank() const;
@@ -34,5 +34,5 @@ private:
 	bool GetHitLocation(FVector& HitLocation) const;
 
 	// returns a hit location for a ray traced along LookVector
-	bool GetRayTraceResults(FVector CameraPosition, FVector LookDirection, FVector & HitLocation) const;
+	void GetRayTraceResults(FVector CameraPosition, FVector LookDirection, FVector & HitLocation) const;
 };
