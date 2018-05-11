@@ -1,10 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Tank.h"
+#include "TankAimingComponent.h"
 #include "TankBarrel.h"
 #include "Projectile.h"
+#include "TankMovementComponent.h"
 #include "Engine/World.h"
-#include "TankAimingComponent.h"
 
 
 
@@ -14,8 +15,9 @@ ATank::ATank()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
-	// pointer protection added at construction
+	// create default components (pointer protection added at construction in .h)
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("AimingComponent"));
+	TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("MovementComponent"));
 }
 
 // set references to turret and barrel
@@ -55,7 +57,7 @@ void ATank::AimAt(FVector HitLocation)
 //fire projectile
 void ATank::Fire()
 {
-	// checks for a barrel and projectile blueprint, exits if not found
+	// checks for a barrel and projectile blueprint, logs and exits if not found
 	FString ThisTank = GetName();
 	if (!Barrel)
 	{

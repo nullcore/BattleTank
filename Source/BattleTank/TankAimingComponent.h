@@ -18,10 +18,10 @@ class BATTLETANK_API UTankAimingComponent : public UActorComponent
 
 public:	
 	// Sets default values for this component's properties
-	UTankAimingComponent();
+	UTankAimingComponent(); // TODO  can we ditch this?
 
 	// retrieves a reference to the turret and barrel static meshes
-	void SetTurretReference(UTankTurret* TurretToSet);
+	void SetTurretReference(UTankTurret* TurretToSet); // TODO  combine into SetReferences()
 	void SetBarrelReference(UTankBarrel* BarrelToSet);
 
 	// handles the actual movements required for aiming
@@ -33,6 +33,6 @@ private:
 	UTankBarrel* Barrel = nullptr;
 
 	// moves the turret and barrel to a specified direction
-	void MoveTurretTo(FVector AimDirection);
+	void MoveTurretTo(FVector AimDirection); // TODO  combine with MoveBarrelTo()
 	void MoveBarrelTo(FVector AimDirection);
 };

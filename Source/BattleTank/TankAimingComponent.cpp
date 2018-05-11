@@ -14,7 +14,7 @@ UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = false;
+	PrimaryComponentTick.bCanEverTick = false; 
 }
 
 
@@ -22,7 +22,7 @@ UTankAimingComponent::UTankAimingComponent()
 // retrieves a reference to the turret's static mesh
 void UTankAimingComponent::SetTurretReference(UTankTurret* TurretToSet)
 {
-	Turret = TurretToSet;
+	Turret = TurretToSet;  
 }
 
 // retrieves a reference to the barrel's static mesh
@@ -41,7 +41,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	FVector TossVelocity;
 	FVector Start = Barrel->GetSocketLocation(FName("Projectile"));
 	FVector End = HitLocation;
-	TArray<AActor*> IgnoreList;		// TODO aim solution ignore list doesn't seem to work
+	TArray<AActor*> IgnoreList;		// FIXME aim solution ignore list doesn't seem to work
 		IgnoreList.Add(GetOwner()); // ignore collisions with owning actor
 
 	// use SuggestProjectileVelocity to get an aim direction

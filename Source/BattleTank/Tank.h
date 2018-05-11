@@ -12,6 +12,7 @@ class UTankAimingComponent;
 class UTankTurret;
 class UTankBarrel;
 class AProjectile;
+class UTankMovementComponent;
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -31,7 +32,9 @@ public:
 	void Fire();
 
 protected:
+	// protected pointers for components
 	UTankAimingComponent* TankAimingComponent = nullptr;
+	UTankMovementComponent* TankMovementComponent = nullptr;
 
 private:
 	// Sets default values for this pawn's properties
@@ -45,12 +48,11 @@ private:
 	float LaunchSpeed = 30000;
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float ReloadTime = 3;
-
 	// determines when the last shot was fired
 	float LastFireTime = ReloadTime * -1;
 
 	// local reference to barrel
-	UTankBarrel* Barrel = nullptr;
+	UTankBarrel* Barrel = nullptr;// TODO should this go in protected?
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
