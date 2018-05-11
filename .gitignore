@@ -3,7 +3,7 @@
 
 # Visual Studio Code user specific files
 .vscode/
-*.code-workspace
+*.code-workspace 
 
 # Visual Studio 2015 database file
 *.VC.db
