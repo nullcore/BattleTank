@@ -3,7 +3,9 @@
 
 # Visual Studio Code user specific files
 .vscode/
-*.code-workspace 
+*.code-workspace
+
+# I added this in the main branch only!
 
 # Visual Studio 2015 database file
 *.VC.db
