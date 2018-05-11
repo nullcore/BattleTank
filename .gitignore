@@ -5,10 +5,6 @@
 .vscode/
 *.code-workspace
 
-# I added this in the main branch only!
-
-# This shouldn't be here!
-
 # Visual Studio 2015 database file
 *.VC.db
 
