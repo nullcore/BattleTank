@@ -19,17 +19,16 @@ UTankAimingComponent::UTankAimingComponent()
 
 
 
-// retrieves a reference to the turret's static mesh
-void UTankAimingComponent::SetTurretReference(UTankTurret* TurretToSet)
+// retrieves references to the turret and barrel static meshes
+void UTankAimingComponent::SetReferences(UTankTurret* TurretToSet, UTankBarrel* BarrelToSet)
 {
-	Turret = TurretToSet;  
+		Turret = TurretToSet;  
+		Barrel = BarrelToSet;
 }
 
-// retrieves a reference to the barrel's static mesh
-void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
-{
-	Barrel = BarrelToSet;
-}
+
+
+
 
 
 

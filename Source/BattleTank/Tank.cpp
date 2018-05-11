@@ -23,8 +23,7 @@ ATank::ATank()
 // set references to turret and barrel
 void ATank::SetReferences(UTankTurret* TurretToSet, UTankBarrel* BarrelToSet)
 {
-	TankAimingComponent->SetTurretReference(TurretToSet);
-	TankAimingComponent->SetBarrelReference(BarrelToSet);
+	TankAimingComponent->SetReferences(TurretToSet, BarrelToSet);
 	Barrel = BarrelToSet; // local reference
 }
 

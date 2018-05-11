@@ -20,9 +20,8 @@ public:
 	// Sets default values for this component's properties
 	UTankAimingComponent(); // TODO  can we ditch this?
 
-	// retrieves a reference to the turret and barrel static meshes
-	void SetTurretReference(UTankTurret* TurretToSet); // TODO  combine into SetReferences()
-	void SetBarrelReference(UTankBarrel* BarrelToSet);
+	// retrieves references to the turret and barrel static meshes
+	void SetReferences(UTankTurret* TurretToSet, UTankBarrel* BarrelToSet);
 
 	// handles the actual movements required for aiming
 	void AimAt(FVector HitLocation, float LaunchSpeed);
