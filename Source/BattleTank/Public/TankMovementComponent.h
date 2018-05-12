@@ -17,6 +17,7 @@ class BATTLETANK_API UTankMovementComponent : public UNavMovementComponent
 	GENERATED_BODY()
 	
 public:
+	// receives input, requests appropriate movement from tank tracks
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void IntendMoveForward(float Throw);
 };

@@ -4,6 +4,7 @@
 
 
 
+// receives input, requests appropriate movement from tank tracks
 void UTankMovementComponent::IntendMoveForward(float Throw)
 {
     auto Log1 = GetName();

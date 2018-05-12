@@ -34,6 +34,7 @@ public:
 protected:
 	// protected pointers for components
 	UTankAimingComponent* TankAimingComponent = nullptr;
+	UPROPERTY(BlueprintReadOnly)
 	UTankMovementComponent* TankMovementComponent = nullptr;
 
 private:
