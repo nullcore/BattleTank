@@ -9,26 +9,12 @@
 
 
 
-// Sets default values for this component's properties
-UTankAimingComponent::UTankAimingComponent()
-{
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = false; 
-}
-
-
-
 // retrieves references to the turret and barrel static meshes
 void UTankAimingComponent::SetReferences(UTankTurret* TurretToSet, UTankBarrel* BarrelToSet)
 {
 		Turret = TurretToSet;  
 		Barrel = BarrelToSet;
 }
-
-
-
-
 
 
 
@@ -61,37 +47,28 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	if (bHaveAimSolution)
 	{
 		FVector AimDirection = TossVelocity.GetSafeNormal();
-		MoveTurretTo(AimDirection);
 		MoveBarrelTo(AimDirection);
 	}
 }
 
 
 
-// moves the turret to a specified direction
-void UTankAimingComponent::MoveTurretTo(FVector AimDirection)
-{
-	FRotator AimRotation = AimDirection.Rotation();
-	FRotator TurretRotation = Turret->GetForwardVector().Rotation();
-	FRotator DeltaRotation = AimRotation - TurretRotation;
-
-	if (FMath::Abs(DeltaRotation.Yaw) < 180)
-	{ 	
-		Turret->Rotate(DeltaRotation.Yaw);
-	}
-	else
-	{
-		Turret->Rotate(-DeltaRotation.Yaw);
-	}
-
-}
-
-// moves the barrel to a specified direction
+// moves the turret and barrel to a specified direction
 void UTankAimingComponent::MoveBarrelTo(FVector AimDirection)
 {
-	FRotator BarrelRotation = Barrel->GetForwardVector().Rotation();
-	FRotator AimRotation = AimDirection.Rotation();
-	FRotator DeltaRotation = AimRotation - BarrelRotation;
+	// both components can use barrel's rotation, as turret rotation aligns
+	FRotator Rotation = Barrel->GetForwardVector().Rotation();
 
+	// current aim rotation and the change in rotation to reach it
+	FRotator AimRotation = AimDirection.Rotation();
+	FRotator DeltaRotation = AimRotation - Rotation;
+
+	// rotate the turret
+	if (FMath::Abs(DeltaRotation.Yaw) < 180)
+		{ Turret->Rotate(DeltaRotation.Yaw); }
+	else // ensures the shortest path
+		{ Turret->Rotate(-DeltaRotation.Yaw); }
+
+	// and elevate the barrel
 	Barrel->Elevate(DeltaRotation.Pitch);
 }

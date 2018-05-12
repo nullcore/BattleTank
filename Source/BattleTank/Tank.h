@@ -52,7 +52,7 @@ private:
 	float LastFireTime = ReloadTime * -1;
 
 	// local reference to barrel
-	UTankBarrel* Barrel = nullptr;// TODO should this go in protected?
+	UTankBarrel* Barrel = nullptr;
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

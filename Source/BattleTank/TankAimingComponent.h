@@ -17,9 +17,6 @@ class BATTLETANK_API UTankAimingComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:	
-	// Sets default values for this component's properties
-	UTankAimingComponent(); // TODO  can we ditch this?
-
 	// retrieves references to the turret and barrel static meshes
 	void SetReferences(UTankTurret* TurretToSet, UTankBarrel* BarrelToSet);
 
@@ -32,6 +29,5 @@ private:
 	UTankBarrel* Barrel = nullptr;
 
 	// moves the turret and barrel to a specified direction
-	void MoveTurretTo(FVector AimDirection); // TODO  combine with MoveBarrelTo()
 	void MoveBarrelTo(FVector AimDirection);
 };
