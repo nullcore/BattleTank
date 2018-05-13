@@ -45,7 +45,6 @@ private:
 	float LaunchSpeed = 30000;
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float ReloadTime = 3;
-	// determines when the last shot was fired
 	float LastFireTime = -ReloadTime; // initialized to allow immediate firing
 
 	// local reference to barrel
