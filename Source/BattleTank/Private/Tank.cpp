@@ -16,24 +16,8 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 
 	// create default components (pointer protection added at construction in .h)
-	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("AimingComponent")); // TODO shouldn't these both work the same way?
+	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("AimingComponent"));
 	TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("MovementComponent"));
-}
-
-
-
-// Called when the game starts or when spawned
-void ATank::BeginPlay()
-{
-	Super::BeginPlay(); // TODO needed?
-}
-
-
-
-// Called to bind functionality to input
-void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	//Super::SetupPlayerInputComponent(PlayerInputComponent); // TODO needed?
 }
 
 

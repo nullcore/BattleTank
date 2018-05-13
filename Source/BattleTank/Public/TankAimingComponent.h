@@ -24,10 +24,9 @@ public:
 	// handles the actual movements required for aiming
 	void AimAt(FVector HitLocation, float LaunchSpeed);
 
-//protected: // TODO set back to protected if possible
 	// variables to hold turret and barrel mesh references
 	UTankTurret* Turret = nullptr;
-	UTankBarrel* Barrel = nullptr;
+	UTankBarrel* Barrel = nullptr; // TODO have TankAimingComponent handle this, maybe AimAt()
 
 private:
 	// moves the turret and barrel to a specified direction
