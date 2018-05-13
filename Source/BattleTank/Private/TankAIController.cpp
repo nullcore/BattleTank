@@ -21,10 +21,11 @@ void ATankAIController::Tick(float DeltaTime)
 	ATank* AITank = Cast<ATank>(GetPawn());
 	ATank* PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
 
+
 	if (AITank && PlayerTank) 
 	{
 		// aim and fire
 		AITank->AimAt(PlayerTank->GetActorLocation());
-		// AITank->Fire(); // TODO turn AI firing back on
+		//AITank->Fire(); // TODO turn AI firing back on
 	}
 }

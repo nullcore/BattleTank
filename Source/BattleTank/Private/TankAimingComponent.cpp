@@ -23,7 +23,7 @@ void UTankAimingComponent::InitializeAimingComponent(UTankTurret* TurretToSet, U
 // handles the actual movements required for aiming
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
-	if (!Barrel || !Turret) { return; } // abandons if components are missing
+	if (!Barrel || !Turret) { return; }
 
 	FVector TossVelocity;
 	FVector Start = Barrel->GetSocketLocation(FName("Projectile"));

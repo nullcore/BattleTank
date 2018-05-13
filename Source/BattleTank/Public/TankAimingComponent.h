@@ -30,5 +30,5 @@ public:
 
 private:
 	// moves the turret and barrel to a specified direction
-	void MoveBarrelTo(FVector AimDirection);
+	void MoveBarrelTo(FVector AimDirection); // TODO rename this to clarify barrel AND turret are affected
 };
