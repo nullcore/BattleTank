@@ -1,6 +1,18 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankMovementComponent.h"
+#include "TankTrack.h"
+
+
+
+// initializes references to both tank tracks
+void UTankMovementComponent::InitializeMovementComponent(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet)
+{
+    if (!LeftTrackToSet || !RightTrackToSet) { return; }
+    
+    LeftTrack = LeftTrackToSet;
+    RightTrack = RightTrackToSet;
+}
 
 
 

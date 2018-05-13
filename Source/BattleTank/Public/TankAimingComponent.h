@@ -18,16 +18,18 @@ class BATTLETANK_API UTankAimingComponent : public UActorComponent
 
 public:	
 	// retrieves references to the turret and barrel static meshes
-	void SetReferences(UTankTurret* TurretToSet, UTankBarrel* BarrelToSet);
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void InitializeAimingComponent(UTankTurret* TurretToSet, UTankBarrel* BarrelToSet);
 
 	// handles the actual movements required for aiming
 	void AimAt(FVector HitLocation, float LaunchSpeed);
 
-private:
+//protected: // TODO set back to protected if possible
 	// variables to hold turret and barrel mesh references
 	UTankTurret* Turret = nullptr;
 	UTankBarrel* Barrel = nullptr;
 
+private:
 	// moves the turret and barrel to a specified direction
 	void MoveBarrelTo(FVector AimDirection);
 };

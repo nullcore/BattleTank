@@ -1,10 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Tank.h"
+#include "TankMovementComponent.h"
 #include "TankAimingComponent.h"
 #include "TankBarrel.h"
 #include "Projectile.h"
-#include "TankMovementComponent.h"
 #include "Engine/World.h"
 
 
@@ -16,15 +16,8 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 
 	// create default components (pointer protection added at construction in .h)
-	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("AimingComponent"));
+	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("AimingComponent")); // TODO shouldn't these both work the same way?
 	TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("MovementComponent"));
-}
-
-// set references to turret and barrel
-void ATank::SetReferences(UTankTurret* TurretToSet, UTankBarrel* BarrelToSet)
-{
-	TankAimingComponent->SetReferences(TurretToSet, BarrelToSet);
-	Barrel = BarrelToSet; // local reference
 }
 
 
@@ -32,7 +25,7 @@ void ATank::SetReferences(UTankTurret* TurretToSet, UTankBarrel* BarrelToSet)
 // Called when the game starts or when spawned
 void ATank::BeginPlay()
 {
-	Super::BeginPlay();
+	Super::BeginPlay(); // TODO needed?
 }
 
 
@@ -40,7 +33,7 @@ void ATank::BeginPlay()
 // Called to bind functionality to input
 void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
-	//Super::SetupPlayerInputComponent(PlayerInputComponent);
+	//Super::SetupPlayerInputComponent(PlayerInputComponent); // TODO needed?
 }
 
 
@@ -58,6 +51,7 @@ void ATank::Fire()
 {
 	// checks for a barrel and projectile blueprint, logs and exits if not found
 	FString ThisTank = GetName();
+	Barrel = TankAimingComponent->Barrel;
 	if (!Barrel)
 	{
 		UE_LOG(LogTemp, Error, TEXT("%s has no Barrel assigned!"), *ThisTank);
