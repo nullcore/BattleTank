@@ -21,17 +21,16 @@ ATank::ATank()
 }
 
 
-
 // aims the tank at the specified location
 void ATank::AimAt(FVector HitLocation)
 {
-	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
+	TankAimingComponent->AimAt(HitLocation, LaunchSpeed); // TODO handle in TankAimingComponent directly
 }
 
 
 
 //fire projectile
-void ATank::Fire()
+void ATank::Fire() // TODO handle in TankAimingComponent directly
 {
 	// checks for a barrel and projectile blueprint, logs and exits if not found
 	FString ThisTank = GetName();

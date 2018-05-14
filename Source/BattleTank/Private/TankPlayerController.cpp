@@ -42,8 +42,8 @@ void ATankPlayerController::AimToReticle() const
 	FVector HitLocation;
 	if (GetHitLocation(OUT HitLocation)) 
 	{
-		// passes to Tank.h to handle aiming
-		GetControlledTank()->AimAt(HitLocation);
+		// passes to Tank to handle aiming
+		GetControlledTank()->AimAt(HitLocation); // TODO this should go to TankAimingComponent
 	}
 
 	return;
