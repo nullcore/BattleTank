@@ -20,6 +20,10 @@ void UTankMovementComponent::InitializeMovementComponent(UTankTrack* LeftTrackTo
 void UTankMovementComponent::IntendMoveForward(float Throw)
 {
     auto Log1 = GetName();
-    //UE_LOG(LogTemp, Display, TEXT("%s: %f"), *Log1, Throw);
+    UE_LOG(LogTemp, Display, TEXT("%s: %f"), *Log1, Throw);
+
+    LeftTrack->SetThrottle(Throw);
+    RightTrack->SetThrottle(Throw);
+    // TODO prevent dual input stacking
 }
 
