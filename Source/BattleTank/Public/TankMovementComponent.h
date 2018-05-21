@@ -25,7 +25,9 @@ public:
 
 	// receives input, requests appropriate movement from tank tracks
 	UFUNCTION(BlueprintCallable, Category = Input)
-	void IntendMoveForward(float Throw);
+	void IntendMove(float Throw);
+	UFUNCTION(BlueprintCallable, Category = Input)
+	void IntendRotate(float Throw);
 
 private:
 	UTankTrack* LeftTrack = nullptr;

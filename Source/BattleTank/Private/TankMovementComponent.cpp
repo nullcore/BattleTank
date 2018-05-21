@@ -8,8 +8,6 @@
 // initializes references to both tank tracks
 void UTankMovementComponent::InitializeMovementComponent(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet)
 {
-    if (!LeftTrackToSet || !RightTrackToSet) { return; }
-    
     LeftTrack = LeftTrackToSet;
     RightTrack = RightTrackToSet;
 }
@@ -17,13 +15,21 @@ void UTankMovementComponent::InitializeMovementComponent(UTankTrack* LeftTrackTo
 
 
 // receives input, requests appropriate movement from tank tracks
-void UTankMovementComponent::IntendMoveForward(float Throw)
+void UTankMovementComponent::IntendMove(float Throw)
 {
-    auto Log1 = GetName();
-    UE_LOG(LogTemp, Display, TEXT("%s: %f"), *Log1, Throw);
-
+    if (!LeftTrack || !RightTrack) { return; }
+    
     LeftTrack->SetThrottle(Throw);
     RightTrack->SetThrottle(Throw);
-    // TODO prevent dual input stacking
 }
 
+
+
+// receives input, requests appropriate movement from tank tracks
+void UTankMovementComponent::IntendRotate(float Throw)
+{
+    if (!LeftTrack || !RightTrack) { return; }
+    
+    LeftTrack->SetThrottle(Throw);
+    RightTrack->SetThrottle(-Throw);
+}
