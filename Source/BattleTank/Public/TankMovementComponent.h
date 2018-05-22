@@ -30,6 +30,7 @@ public:
 	void IntendRotate(float Throw);
 
 	// TODO check if this can be private
+	// overrides NavMeshComponent, implementing our own movement based on pathfinding
 	virtual void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
 
 private:
