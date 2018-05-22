@@ -8,7 +8,7 @@
 void UTankTrack::SetThrottle(float Throttle)
 {
 	// prevents throttle from exceeding inteded values
-	Throttle = FMath::Clamp<float>(Throttle, -0.5, 1); // TODO properly clamp input (still receives double input)
+	// Throttle = FMath::Clamp<float>(Throttle, -0.5, 1); // TODO properly clamp input (still receives double input)
 
 	FVector ForceApplied = GetForwardVector() * Throttle * MaxForce;
 	FVector ForceLocation = GetComponentLocation();
