@@ -29,6 +29,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Input)
 	void IntendRotate(float Throw);
 
+	// TODO check if this can be private
+	virtual void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
+
 private:
 	UTankTrack* LeftTrack = nullptr;
 	UTankTrack* RightTrack = nullptr;

@@ -24,6 +24,9 @@ void ATankAIController::Tick(float DeltaTime)
 
 	if (AITank && PlayerTank) 
 	{
+		// move toward player tank
+		MoveToActor(PlayerTank, AcceptanceRadius);
+
 		// aim and fire
 		AITank->AimAt(PlayerTank->GetActorLocation());
 		//AITank->Fire(); // TODO turn AI firing back on

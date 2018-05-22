@@ -33,3 +33,12 @@ void UTankMovementComponent::IntendRotate(float Throw)
     LeftTrack->SetThrottle(Throw);
     RightTrack->SetThrottle(-Throw);
 }
+
+
+
+void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
+{
+	// LOG   LOG   LOG 
+    UE_LOG(LogTemp, Warning, TEXT("MV: %s"), *MoveVelocity.ToString());
+	// LOG   LOG   LOG 
+}
